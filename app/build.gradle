@@ -1,0 +1,81 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace 'com.mirae.weatherlatamagroovyfinal'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.mirae.weatherlatamagroovyfinal"
+        minSdk 25
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../../../keystore/keystorerepo.keystore")
+            storePassword "password"
+            keyAlias "myKeyApp"
+            keyPassword "password"
+        }
+
+        debug {
+            storeFile file("../../../keystore/keystorerepo.keystore")
+            storePassword "password"
+            keyAlias "mykeyappqa"
+            keyPassword "password"
+        }
+
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+        }
+        QA {
+        signingConfig signingConfigs.debug
+            versionNameSuffix 'Qa'
+            debuggable true
+        }
+        DEV {
+        debuggable true
+            versionNameSuffix 'Dev'
+         signingConfig signingConfigs.debug
+        }
+        PROD {
+        debuggable false
+            signingConfig signingConfigs.release
+            versionNameSuffix 'Prod'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.espresso.core
+}
